@@ -1,0 +1,45 @@
+{
+    "name": "hellonextjs",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "export": "rm -rf .next && next build && rm -rf dist && next export -o dist"
+    },
+    "dependencies": {
+        "next": "10.0.7",
+        "react": "17.0.1",
+        "react-dom": "17.0.1"
+    },
+    "devDependencies": {
+        "@fullhuman/postcss-purgecss": "^4.0.2",
+        "@types/node": "^14.14.31",
+        "@types/react": "^17.0.2",
+        "@typescript-eslint/eslint-plugin": "^4.16.1",
+        "@typescript-eslint/parser": "^4.16.1",
+        "autoprefixer": "^10.2.5",
+        "cssnano": "^4.1.10",
+        "cssnano-preset-advanced": "^4.0.7",
+        "eslint": "^7.21.0",
+        "eslint-config-airbnb": "^18.2.1",
+        "eslint-config-prettier": "^8.1.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-prettier": "^3.3.1",
+        "eslint-plugin-react": "^7.22.0",
+        "eslint-plugin-react-hooks": "^4.2.0",
+        "postcss": "^8.2.8",
+        "prettier": "2.2.1",
+        "tailwindcss": "^2.0.3",
+        "typescript": "^4.2.2"
+    },
+    "license": "GNU",
+    "browserslist": [
+        ">0.3%",
+        "not ie 11",
+        "not dead",
+        "not op_mini all"
+    ]
+}
