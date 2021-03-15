@@ -1,10 +1,18 @@
 import { Lizard, Paper, Rock, Scissors, Spock } from "../components/Characters";
 import Head from "next/head";
-import { useEffect } from "react";
+import {
+  defaultProps,
+  defaultStaticProps,
+  GameData,
+  GameModes,
+} from "../pages/_app";
+import { useGameSettings } from "../hooks/useGameSettings";
 
-const EasyMode = ({ data, setData }: any) => {
-  useEffect(() => setData({ ...data, gameMode: "easy" }), []);
+interface easyModeInf extends defaultProps, GameModes {}
 
+const EasyMode = (props: easyModeInf) => {
+  const { data, setData, gameMode } = props;
+  useGameSettings(props, setData);
   return (
     <div>
       <Head>
@@ -13,5 +21,15 @@ const EasyMode = ({ data, setData }: any) => {
     </div>
   );
 };
+
+export async function getStaticProps(context) {
+  const props: defaultStaticProps = {
+    gameMode: "easy",
+  };
+
+  return {
+    props,
+  };
+}
 
 export default EasyMode;

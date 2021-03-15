@@ -1,10 +1,13 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useEffect } from "react";
+import Link from "next/link";
+import { defaultProps, GameData } from "./_app";
 
-const Home = ({ data, setData }: any) => {
-  const router = useRouter();
-  useEffect(() => setData({ ...data, gameMode: null }), []);
+const Home = ({ data, setData }: defaultProps) => {
+  useEffect(() => {
+    setData({ ...data, gameMode: null });
+  }, []);
+
   return (
     <div>
       <Head>
@@ -12,18 +15,16 @@ const Home = ({ data, setData }: any) => {
       </Head>
 
       <main>
-        <button
-          className="p-3 border-2 border-white"
-          onClick={() => router.push("/easy")}
-        >
-          Easy
-        </button>
-        <button
-          className="p-3 border-2 border-white"
-          onClick={() => router.push("/hard")}
-        >
-          Hard
-        </button>
+        <Link href="/easy">
+          <button className="p-3 border-2 border-white">
+            <a>Easy</a>
+          </button>
+        </Link>
+        <Link href="/hard">
+          <button className="p-3 border-2 border-white">
+            <a>hard</a>
+          </button>
+        </Link>
         {/* <img src="/images/icon-close.svg" /> */}
         {/* <img src="/images/image-rules-bonus.svg" />
         <img src="/images/image-rules.svg" />
@@ -33,4 +34,5 @@ const Home = ({ data, setData }: any) => {
     </div>
   );
 };
+
 export default Home;

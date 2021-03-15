@@ -2,16 +2,28 @@ import "../styles/globals.css";
 import Footer from "../components/Footer";
 import HeaderCard from "../components/HeaderCard";
 import Head from "next/head";
-import { useState } from "react";
+import { useGameData } from "../hooks/useGameData";
+import { AppProps } from "next/app";
+import { Dispatch, SetStateAction } from "react";
 
-// eslint-disable-next-line react/prop-types
-function MyApp({ Component, pageProps }) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  const [data, setData] = useState({
-    gameMode: null,
-    easyModeScore: null,
-    hardModeScore: null,
-  });
+export interface GameModes {
+  gameMode: "easy" | "hard" | null;
+}
+
+export interface defaultStaticProps extends GameModes {}
+
+export interface GameData extends GameModes {
+  easyModeScore?: number | null;
+  hardModeScore?: number | null;
+}
+
+export interface defaultProps {
+  data: GameData;
+  setData: Dispatch<SetStateAction<GameData>>;
+}
+
+function MyApp({ Component, pageProps }: AppProps) {
+  const [data, setData] = useGameData();
 
   return (
     <div className="fixed-background text-white tracking-wider">
@@ -32,6 +44,16 @@ function MyApp({ Component, pageProps }) {
       <Footer />
     </div>
   );
+}
+
+export async function getStaticProps(context) {
+  const props: defaultStaticProps = {
+    gameMode: null,
+  };
+
+  return {
+    props,
+  };
 }
 
 export default MyApp;

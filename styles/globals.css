@@ -133,6 +133,11 @@ a {
   border-radius: 8px;
 }
 
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 /* ### Neutral
 
 - Dark Text: hsl(229, 25%, 31%)

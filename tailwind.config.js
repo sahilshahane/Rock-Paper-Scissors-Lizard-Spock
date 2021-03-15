@@ -8,7 +8,9 @@ module.exports = {
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      maxWidth: {},
+    },
     screens: {
       mobileM: "375px",
       // => @media (min-width: 375px) { ... }
