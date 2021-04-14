@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&display=swap');
 
 /* 
 The designs were created to the following widths:
@@ -28,7 +28,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Barlow Semi Condensed", sans-serif, Helvetica, Arial;
+  font-family: 'Barlow Semi Condensed', sans-serif, Helvetica, Arial;
 }
 
 a {
@@ -36,8 +36,13 @@ a {
   text-decoration: none;
 }
 
+button:focus {
+  outline: none;
+}
+
 * {
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 .fixed-background {
@@ -45,7 +50,7 @@ a {
   position: relative;
 }
 .fixed-background::before {
-  content: " ";
+  content: ' ';
   position: fixed;
   width: 100%;
   height: 100%;
@@ -60,7 +65,7 @@ a {
   --text-neutral-dark: hsl(229, 25%, 31%);
   --text-neutral-score: hsl(229, 64%, 46%);
   --outline-neutral-header: hsl(217, 16%, 45%);
-  --primary-paper: [hsl(230, 89%, 62%), ];
+  --primary-paper: hsl(230, 89%, 62%);
 }
 
 .scissors-gradient {
@@ -143,3 +148,14 @@ a {
 - Dark Text: hsl(229, 25%, 31%)
 - Score Text: hsl(229, 64%, 46%)
 - Header Outline: hsl(217, 16%, 45%) */
+.border-color-default {
+  border-color: hsl(217, 16%, 55%);
+}
+
+.container-responsive {
+  @apply container;
+}
+
+.text-dark {
+  color: var(--text-neutral-dark);
+}

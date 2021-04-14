@@ -1,7 +1,21 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  purge: {
+    enabled: true,
+    content: [
+      './pages/**/*.{js,ts,jsx,tsx}',
+      './components/**/*.{js,ts,jsx,tsx}',
+    ],
+    options: {
+      keyframes: true,
+      fontFace: true,
+      variables: true,
+      rejected: true,
+    },
+    defaultExtractor: (content) =>
+      content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || [],
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
@@ -25,8 +39,4 @@ module.exports = {
       'neutral-dark': '#3B4363',
     },
   },
-  variants: {
-    extend: {},
-  },
-  plugins: [],
 }
