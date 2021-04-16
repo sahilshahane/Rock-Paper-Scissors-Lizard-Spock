@@ -1,9 +1,10 @@
-import { Lizard, Paper, Rock, Scissors, Spock } from "../components/Characters";
-import Head from "next/head";
-import { useEffect } from "react";
+import { Lizard, Paper, Rock, Scissors, Spock } from '../components/Characters'
+import Head from 'next/head'
+import { useEffect } from 'react'
+import { defaultStaticProps } from './_app'
 
-const EasyMode = ({ data, setData }: any) => {
-  useEffect(() => setData({ ...data, gameMode: "hard" }), []);
+const HardMode = ({ data, setData }: any) => {
+  useEffect(() => setData({ ...data, gameMode: 'hard' }), [])
 
   return (
     <div>
@@ -13,7 +14,17 @@ const EasyMode = ({ data, setData }: any) => {
       <Lizard />
       <p></p>
     </div>
-  );
-};
+  )
+}
 
-export default EasyMode;
+export default HardMode
+
+export async function getStaticProps(context) {
+  const props: defaultStaticProps = {
+    gameMode: 'hard',
+  }
+
+  return {
+    props,
+  }
+}

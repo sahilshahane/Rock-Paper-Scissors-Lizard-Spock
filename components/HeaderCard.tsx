@@ -51,14 +51,16 @@ const HeaderCard = ({ data }: any) => {
   const imgSrc = getImageLocation(data.gameMode)
 
   return (
-    <div className='container-responsive mx-auto mt-8 transition-all border-2 header border-gray-500 w-11/12 tabletM:w-4/5 tablet:w-3/5 p-5'>
-      <div className='grid grid-cols-2'>
-        <div>
-          <img src={imgSrc} alt={data.gameMode} className='flex-shrink-0' />
-        </div>
-        <div className='text-center relative'>
-          <EasyModeScoreBoard data={data} />
-          <HardModeScoreBoard data={data} />
+    <div className='pt-8'>
+      <div className='container-responsive mx-auto transition-all border-2 header border-gray-500 w-11/12 tabletM:w-4/5 tablet:w-3/5 p-5'>
+        <div className='grid grid-cols-2'>
+          <div>
+            <img src={imgSrc} alt={data.gameMode} className='flex-shrink-0' />
+          </div>
+          <div className='text-center relative'>
+            <EasyModeScoreBoard data={data} />
+            <HardModeScoreBoard data={data} />
+          </div>
         </div>
       </div>
     </div>

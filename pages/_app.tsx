@@ -36,10 +36,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
 
-      <div className='h-screen'>
+      <div className='relative h-screen flex flex-col justify-between'>
         <HeaderCard data={data} />
-        <Component {...pageProps} data={data} setData={setData} />
-        <RulesSection />
+        <div className='mx-auto'>
+          <Component {...pageProps} data={data} setData={setData} />
+        </div>
+
+        <RulesSection gameMode={pageProps.gameMode} />
       </div>
       <Footer />
     </div>
