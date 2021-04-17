@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <div className='relative h-screen flex flex-col justify-between'>
         <HeaderCard data={data} />
-        <div className='mx-auto'>
+        <div className='w-full mx-auto'>
           <Component {...pageProps} data={data} setData={setData} />
         </div>
 

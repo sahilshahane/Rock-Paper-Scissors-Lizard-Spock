@@ -88,23 +88,23 @@ button:focus {
   background-image: linear-gradient(hsl(189, 59%, 53%), hsl(189, 58%, 57%));
 }
 
-.character .outer-shadow.scissors-gradient {
+.character.outer-shadow.scissors-gradient {
   background-image: linear-gradient(hsl(39, 89%, 29%), hsl(40, 84%, 33%));
 }
 
-.character .outer-shadow.paper-gradient {
+.character.outer-shadow.paper-gradient {
   background-image: linear-gradient(hsl(230, 89%, 42%), hsl(230, 89%, 45%));
 }
 
-.character .outer-shadow.rock-gradient {
+.character.outer-shadow.rock-gradient {
   background-image: linear-gradient(hsl(349, 71%, 32%), hsl(349, 70%, 36%));
 }
 
-.character .outer-shadow.lizard-gradient {
+.character.outer-shadow.lizard-gradient {
   background-image: linear-gradient(hsl(261, 73%, 40%), hsl(261, 72%, 43%));
 }
 
-.character .outer-shadow.spock-gradient {
+.character.outer-shadow.spock-gradient {
   background-image: linear-gradient(hsl(189, 59%, 33%), hsl(189, 58%, 37%));
 }
 
@@ -112,10 +112,6 @@ button:focus {
   border-image-slice: 1;
   border-style: solid;
 } */
-
-.round {
-  border-radius: 50%;
-}
 
 .inner-shadow {
   background-color: #bbbfd0;
