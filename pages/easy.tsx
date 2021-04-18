@@ -7,7 +7,8 @@ import {
   GameModes,
 } from '../pages/_app'
 import { useGameSettings } from '../hooks/useGameSettings'
-import { useEffect, useReducer, useRef } from 'react'
+import { useEffect, useReducer, useRef, useState } from 'react'
+import GameResultDialog from '../components/GameResult'
 
 type CharacterNames = 'rock' | 'paper' | 'scissors'
 
@@ -24,31 +25,26 @@ type reducerInterface = (
 const characters: CharacterNames[] = ['rock', 'paper', 'scissors']
 
 const reducer: reducerInterface = (state, action) => {
-  const newState: selectionState = {}
   switch (action.type) {
     case 'select':
-      newState[action.payload] = true //TOTALLY UN-NECESSARY STEP BUT REQUIRED FOR FUTURE EXPANSION
-      state.isSelected = true
+      state.selectedCharacter = action.payload
+      break
     case 'reset':
-      newState.isSelected = false
+      delete state.selectedCharacter
+      break
   }
-  console.log('You Clicked on ' + action.payload, state)
-  return { ...state, newState }
+  // console.log('You Clicked on ' + action.payload, state)
+  return { ...state }
 }
 
 interface selectionState {
-  rock?: boolean
-  paper?: boolean
-  scissors?: boolean
-  isSelected?: boolean
+  selectedCharacter?: CharacterNames
 }
 
 const initialSelectionState_: selectionState = {}
 
 const EasyMode = (props: easyModeInf) => {
   const { data, setData, gameMode } = props
-  const GameButtonRefs = useRef({})
-
   const [state, dispatch] = useReducer(reducer, initialSelectionState_)
 
   // CUSTOM HOOK BABY
@@ -57,19 +53,27 @@ const EasyMode = (props: easyModeInf) => {
   const HandleClick = (name: CharacterNames) =>
     dispatch({ type: 'select', payload: name })
 
-  useEffect(() => {
-    console.log('State Changed', state)
-  }, [state, dispatch])
+  const resetGame = () => dispatch({ type: 'reset' })
+  const [showResult, setShowResult] = useState(true)
 
   return (
     <div>
       <Head>
         <title>Easy Mode | R.P.S</title>
       </Head>
+
+      <GameResultDialog
+        resetGameFunc={resetGame}
+        selectedCharacter={state.selectedCharacter}
+        showDialog={!!state.selectedCharacter}
+      />
+
       <div
-        className={`${
-          state.isSelected ? 'scale-0 rotate-180' : 'scale-100'
-        } transform-gpu transition relative mx-auto m-8 p-2 flex justify-center w-64 h-64 tablet:w-80 tablet:h-80`}
+        className={`absolute transform-gpu top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${
+          !!state.selectedCharacter
+            ? 'scale-0 opacity-0'
+            : 'scale-100  opacity-100'
+        } transition p-2 flex justify-center w-64 h-64 tablet:w-80 tablet:h-80`}
       >
         <div className='absolute left-0 p-8'>
           <img src='/images/bg-triangle.svg' />

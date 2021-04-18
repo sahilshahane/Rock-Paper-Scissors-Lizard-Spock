@@ -51,7 +51,7 @@ const HeaderCard = ({ data }: any) => {
   const imgSrc = getImageLocation(data.gameMode)
 
   return (
-    <div className='p-2 pb-0 tablet:pt-5'>
+    <div className='p-2 tablet:p-5'>
       <div className='container-responsive mx-auto transition-all border-2 header border-gray-500 w-11/12 tabletM:w-4/5 tablet:w-3/5 p-5'>
         <div className='grid grid-cols-2'>
           <div>

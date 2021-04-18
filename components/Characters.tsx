@@ -1,42 +1,47 @@
 import { MutableRefObject, useRef, useState } from 'react'
 
-type CharacterNames = 'spock' | 'scissors' | 'rock' | 'paper' | 'lizard'
+export type CharacterNames = 'spock' | 'scissors' | 'rock' | 'paper' | 'lizard'
 type onCharacterClick = (name: CharacterNames) => any
 
-interface defaultCharacterProps {
+interface characterProps {
   isHidden?: boolean
-  onClick: onCharacterClick
+  onClick?: onCharacterClick
 }
 
-export const Spock = (props: defaultCharacterProps) => {
+interface baseCharacterProps extends characterProps {
+  name: CharacterNames
+  src: string
+}
+
+export const Spock = (props: characterProps) => {
   return makeCharacter({
     src: '/images/icon-spock.svg',
     name: 'spock',
     ...props,
   })
 }
-export const Scissors = (props: defaultCharacterProps) => {
+export const Scissors = (props: characterProps) => {
   return makeCharacter({
     src: '/images/icon-scissors.svg',
     name: 'scissors',
     ...props,
   })
 }
-export const Rock = (props: defaultCharacterProps) => {
+export const Rock = (props: characterProps) => {
   return makeCharacter({
     src: '/images/icon-rock.svg',
     name: 'rock',
     ...props,
   })
 }
-export const Paper = (props: defaultCharacterProps) => {
+export const Paper = (props: characterProps) => {
   return makeCharacter({
     src: '/images/icon-paper.svg',
     name: 'paper',
     ...props,
   })
 }
-export const Lizard = (props: defaultCharacterProps) => {
+export const Lizard = (props: characterProps) => {
   return makeCharacter({
     src: '/images/icon-lizard.svg',
     name: 'lizard',
@@ -44,48 +49,38 @@ export const Lizard = (props: defaultCharacterProps) => {
   })
 }
 
-interface makeCharacter {
-  name: CharacterNames
-  src: string
-  onClick: onCharacterClick
-  isHidden?: boolean
-}
-
-const makeCharacter = ({ name, src, isHidden, onClick }: makeCharacter) => {
+const makeCharacter = ({
+  name,
+  src,
+  isHidden,
+  onClick,
+}: baseCharacterProps) => {
   return (
     <Character src={src} name={name} isHidden={isHidden} onClick={onClick} />
   )
 }
 
-interface CharacterInterface {
-  src: string
-  name: CharacterNames
-  isHidden: boolean
-  onClick: onCharacterClick
-}
-
-const Character = ({ src, name, isHidden, onClick }: CharacterInterface) => {
+const Character = ({ src, name, isHidden, onClick }: baseCharacterProps) => {
   const [isClicked, setIsClicked] = useState(false)
 
   const BtnPressedDuration = 150 // unit = ms
 
-  const [isAccessRestricted, setAccessRestricted] = useState(false) // THIS IS USED TO PREVENT DOUBLE CLICKS, TOTALLY UN-NECESSASRY BUT WORTH IT IF SOMEONE IS TRYING TO DOUBLE CLICK, IT'S LIKE A ANTI CHEAT FOR NOTHING xD
+  const [isAccessRestricted, setAccessRestricted] = useState(false) // THIS IS USED TO PREVENT DOUBLE CLICKS, TOTALLY UN-NECESSASRY BUT WORTH IT IF SOMEONE IS TRYING TO DISCOVER BUGS, IT'S LIKE A ANTI CHEAT THAT NO ONE ASKED xD
 
   const handleClick = () => {
     if (!isAccessRestricted) {
-      setAccessRestricted(() => true)
+      setAccessRestricted(() => true) // RESTRICT THE ACCESS TO BUTTON ON CLICK
       setIsClicked(true)
 
-      setTimeout(() => {
-        setIsClicked(false)
-      }, BtnPressedDuration)
+      setTimeout(() => setIsClicked(false), BtnPressedDuration) // RESTORE THE BUTTON POSITION AFTER ANIMATION DURATION
 
-      setTimeout(() => {
-        // CALLBACK
-        onClick(name)
-      }, BtnPressedDuration + BtnPressedDuration * 0.8)
+      if (onClick)
+        setTimeout(
+          () => onClick(name),
+          BtnPressedDuration + BtnPressedDuration * 0.4
+        ) // NOTIFY THE CALLBACK AFTER THE BUTTON ANIMATION
 
-      setTimeout(() => setAccessRestricted(() => false), BtnPressedDuration * 2)
+      setTimeout(() => setAccessRestricted(() => false), BtnPressedDuration * 2) // RESTORE THE RESTRICTED ACCESS AFTER BUTTON ANIMATION DURATION
     }
   }
 
