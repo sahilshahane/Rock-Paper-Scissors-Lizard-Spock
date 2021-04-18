@@ -41,7 +41,7 @@ const Character = ({ src, name, isHidden, onClick, isClickable }: baseCharacterP
             style={{ transitionDuration: `${BtnPressedDuration}ms` }}
             className={`transition character transform-gpu ${
                 isHidden ? 'scale-0' : 'scale-100'
-            } select-none inline-flex outer-shadow ${name}-gradient rounded-full cursor-pointer`}
+            } no-select inline-flex outer-shadow ${name}-gradient rounded-full cursor-pointer`}
         >
             <div
                 style={{ transitionDuration: `${BtnPressedDuration}ms` }}
