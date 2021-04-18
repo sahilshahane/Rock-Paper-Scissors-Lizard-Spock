@@ -1,122 +1,94 @@
-import { MutableRefObject, useRef, useState } from 'react'
+import { useState } from 'react';
 
-export type CharacterNames = 'spock' | 'scissors' | 'rock' | 'paper' | 'lizard'
-type onCharacterClick = (name: CharacterNames) => any
+export type CharacterNames = 'spock' | 'scissors' | 'rock' | 'paper' | 'lizard';
+type onCharacterClick = (name: CharacterNames) => any;
 
 interface characterProps {
-  isHidden?: boolean
-  onClick?: onCharacterClick
+    isHidden?: boolean;
+    onClick?: onCharacterClick;
+    isClickable?: boolean;
 }
 
 interface baseCharacterProps extends characterProps {
-  name: CharacterNames
-  src: string
+    name: CharacterNames;
+    src: string;
 }
 
-export const Spock = (props: characterProps) => {
-  return makeCharacter({
-    src: '/images/icon-spock.svg',
-    name: 'spock',
-    ...props,
-  })
-}
-export const Scissors = (props: characterProps) => {
-  return makeCharacter({
-    src: '/images/icon-scissors.svg',
-    name: 'scissors',
-    ...props,
-  })
-}
-export const Rock = (props: characterProps) => {
-  return makeCharacter({
-    src: '/images/icon-rock.svg',
-    name: 'rock',
-    ...props,
-  })
-}
-export const Paper = (props: characterProps) => {
-  return makeCharacter({
-    src: '/images/icon-paper.svg',
-    name: 'paper',
-    ...props,
-  })
-}
-export const Lizard = (props: characterProps) => {
-  return makeCharacter({
-    src: '/images/icon-lizard.svg',
-    name: 'lizard',
-    ...props,
-  })
-}
+const Character = ({ src, name, isHidden, onClick, isClickable }: baseCharacterProps) => {
+    const [isClicked, setIsClicked] = useState(false);
 
-const makeCharacter = ({
-  name,
-  src,
-  isHidden,
-  onClick,
-}: baseCharacterProps) => {
-  return (
-    <Character src={src} name={name} isHidden={isHidden} onClick={onClick} />
-  )
-}
+    const BtnPressedDuration = 150; // unit = ms
 
-const Character = ({ src, name, isHidden, onClick }: baseCharacterProps) => {
-  const [isClicked, setIsClicked] = useState(false)
+    const [isAccessRestricted, setAccessRestricted] = useState(false); // THIS IS USED TO PREVENT DOUBLE CLICKS, TOTALLY UN-NECESSASRY BUT WORTH IT IF SOMEONE IS TRYING TO DISCOVER BUGS, IT'S LIKE A ANTI CHEAT THAT NO ONE ASKED xD
 
-  const BtnPressedDuration = 150 // unit = ms
+    const handleClick = () => {
+        if (!isAccessRestricted && (isClickable || isClickable === undefined)) {
+            setAccessRestricted(() => true); // RESTRICT THE ACCESS TO BUTTON ON CLICK
+            setIsClicked(true);
 
-  const [isAccessRestricted, setAccessRestricted] = useState(false) // THIS IS USED TO PREVENT DOUBLE CLICKS, TOTALLY UN-NECESSASRY BUT WORTH IT IF SOMEONE IS TRYING TO DISCOVER BUGS, IT'S LIKE A ANTI CHEAT THAT NO ONE ASKED xD
+            setTimeout(() => setIsClicked(false), BtnPressedDuration); // RESTORE THE BUTTON POSITION AFTER ANIMATION DURATION
 
-  const handleClick = () => {
-    if (!isAccessRestricted) {
-      setAccessRestricted(() => true) // RESTRICT THE ACCESS TO BUTTON ON CLICK
-      setIsClicked(true)
+            if (onClick) setTimeout(() => onClick(name), BtnPressedDuration + BtnPressedDuration * 0.4); // NOTIFY THE CALLBACK AFTER THE BUTTON ANIMATION
 
-      setTimeout(() => setIsClicked(false), BtnPressedDuration) // RESTORE THE BUTTON POSITION AFTER ANIMATION DURATION
+            setTimeout(() => setAccessRestricted(() => false), BtnPressedDuration * 2); // RESTORE THE RESTRICTED ACCESS AFTER BUTTON ANIMATION DURATION
+        }
+    };
 
-      if (onClick)
-        setTimeout(
-          () => onClick(name),
-          BtnPressedDuration + BtnPressedDuration * 0.4
-        ) // NOTIFY THE CALLBACK AFTER THE BUTTON ANIMATION
-
-      setTimeout(() => setAccessRestricted(() => false), BtnPressedDuration * 2) // RESTORE THE RESTRICTED ACCESS AFTER BUTTON ANIMATION DURATION
-    }
-  }
-
-  // const handleRelease = () => {
-  //   setIsClicked(false)
-  // }
-
-  return (
-    <div
-      // onMouseUp={handleRelease}
-      onMouseDown={handleClick}
-      // onMouseLeave={handleRelease}
-      style={{ transitionDuration: BtnPressedDuration + 'ms' }}
-      className={`transition character transform-gpu ${
-        isHidden ? 'scale-0' : 'scale-100'
-      } select-none inline-flex outer-shadow ${name}-gradient rounded-full cursor-pointer`}
-    >
-      <div
-        style={{ transitionDuration: BtnPressedDuration + 'ms' }}
-        className={`transition ${name}-gradient rounded-full transform ${
-          isClicked ? 'translate-y-0' : '-translate-y-2'
-        }`}
-      >
+    return (
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
-          className={`m-3 rounded-full bg-white inline-flex justify-center w-20 h-20 tablet:w-24 tablet:h-24`}
+            onMouseDown={handleClick}
+            style={{ transitionDuration: `${BtnPressedDuration}ms` }}
+            className={`transition character transform-gpu ${
+                isHidden ? 'scale-0' : 'scale-100'
+            } select-none inline-flex outer-shadow ${name}-gradient rounded-full cursor-pointer`}
         >
-          <img
-            src={src}
-            alt={name}
-            className='self-center w-7/12 tablet:w-1/2'
-          />
+            <div
+                style={{ transitionDuration: `${BtnPressedDuration}ms` }}
+                className={`transition ${name}-gradient rounded-full transform ${
+                    isClicked ? 'translate-y-0' : '-translate-y-2'
+                }`}
+            >
+                <div className="m-3 rounded-full bg-white inline-flex justify-center w-20 h-20 tablet:w-24 tablet:h-24">
+                    <img src={src} alt={name} className="self-center w-7/12 tablet:w-1/2" />
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  )
-}
+    );
+};
+
+const makeCharacter = (props: baseCharacterProps) => <Character {...props} />;
+
+export const Spock = (props: characterProps) =>
+    makeCharacter({
+        src: '/images/icon-spock.svg',
+        name: 'spock',
+        ...props,
+    });
+export const Scissors = (props: characterProps) =>
+    makeCharacter({
+        src: '/images/icon-scissors.svg',
+        name: 'scissors',
+        ...props,
+    });
+export const Rock = (props: characterProps) =>
+    makeCharacter({
+        src: '/images/icon-rock.svg',
+        name: 'rock',
+        ...props,
+    });
+export const Paper = (props: characterProps) =>
+    makeCharacter({
+        src: '/images/icon-paper.svg',
+        name: 'paper',
+        ...props,
+    });
+export const Lizard = (props: characterProps) =>
+    makeCharacter({
+        src: '/images/icon-lizard.svg',
+        name: 'lizard',
+        ...props,
+    });
 
 // const CharacterOLD = ({ src, name }: { src: string; name: string }) => {
 //   const [isClicked, setIsClicked] = useState(false)
