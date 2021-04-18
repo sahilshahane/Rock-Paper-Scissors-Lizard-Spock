@@ -5,11 +5,11 @@ import { defaultProps, defaultStaticProps, GameModes } from './_app';
 import { useGameSettings } from '../hooks/useGameSettings';
 import GameResultDialog from '../components/GameResult';
 
-type CharacterNames = 'rock' | 'paper' | 'scissors';
+type characterNames = 'rock' | 'paper' | 'scissors';
 
 interface easyModeInf extends defaultProps, GameModes {}
 interface selectionState {
-    selectedCharacter?: CharacterNames;
+    selectedCharacter?: characterNames;
 }
 
 type reducerInterface = (
@@ -18,7 +18,7 @@ type reducerInterface = (
     // eslint-disable-next-line no-unused-vars
     action: {
         type: 'select' | 'reset';
-        payload?: CharacterNames;
+        payload?: characterNames;
     },
 ) => selectionState;
 
@@ -39,6 +39,10 @@ const reducer: reducerInterface = (state, action) => {
 
 const initialSelectionState: selectionState = {};
 
+const CharacterNameArray: characterNames[] = ['paper', 'rock', 'scissors'];
+
+const getRandomCharacter = () => CharacterNameArray[Math.floor(Math.random() * CharacterNameArray.length)];
+
 const EasyMode = (props: easyModeInf) => {
     const { data, setData, gameMode } = props;
     const [state, dispatch] = useReducer(reducer, initialSelectionState);
@@ -46,7 +50,7 @@ const EasyMode = (props: easyModeInf) => {
     // CUSTOM HOOK BABY
     useGameSettings(props, setData);
 
-    const HandleClick = (name: CharacterNames) => dispatch({ type: 'select', payload: name });
+    const HandleClick = (name: characterNames) => dispatch({ type: 'select', payload: name });
 
     const resetGame = () => dispatch({ type: 'reset' });
 
@@ -59,6 +63,7 @@ const EasyMode = (props: easyModeInf) => {
             <GameResultDialog
                 resetGameFunc={resetGame}
                 selectedCharacter={state.selectedCharacter}
+                enemyCharacter={getRandomCharacter()}
                 showDialog={!!state.selectedCharacter}
             />
 

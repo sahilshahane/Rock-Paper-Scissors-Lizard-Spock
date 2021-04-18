@@ -7,6 +7,7 @@ interface characterProps {
     isHidden?: boolean;
     onClick?: onCharacterClick;
     isClickable?: boolean;
+    size?: 'xl';
 }
 
 interface baseCharacterProps extends characterProps {
@@ -14,7 +15,7 @@ interface baseCharacterProps extends characterProps {
     src: string;
 }
 
-const Character = ({ src, name, isHidden, onClick, isClickable }: baseCharacterProps) => {
+const Character = ({ src, name, isHidden, onClick, isClickable, size }: baseCharacterProps) => {
     const [isClicked, setIsClicked] = useState(false);
 
     const BtnPressedDuration = 150; // unit = ms
@@ -41,15 +42,17 @@ const Character = ({ src, name, isHidden, onClick, isClickable }: baseCharacterP
             style={{ transitionDuration: `${BtnPressedDuration}ms` }}
             className={`transition character transform-gpu ${
                 isHidden ? 'scale-0' : 'scale-100'
-            } no-select inline-flex outer-shadow ${name}-gradient rounded-full cursor-pointer`}
+            } no-select inline-flex outer-shadow ${name}-gradient rounded-full cursor-pointer size margin-offset ${
+                size || 'default'
+            } `}
         >
             <div
                 style={{ transitionDuration: `${BtnPressedDuration}ms` }}
-                className={`transition ${name}-gradient rounded-full transform ${
-                    isClicked ? 'translate-y-0' : '-translate-y-2'
+                className={`transition ${name}-gradient rounded-full size ${size || 'default'} transform ${
+                    isClicked ? 'translate-y-0' : 'button-height'
                 }`}
             >
-                <div className="m-3 rounded-full bg-white inline-flex justify-center w-20 h-20 tablet:w-24 tablet:h-24">
+                <div className={`rounded-full bg-white inline-flex justify-center skeleton size ${size || 'default'} `}>
                     <img src={src} alt={name} className="self-center w-7/12 tablet:w-1/2" />
                 </div>
             </div>

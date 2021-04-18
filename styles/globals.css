@@ -165,3 +165,31 @@ button:focus {
     -ms-user-select: none;
     user-select: none;
 }
+
+.character .skeleton.size.default {
+    @apply w-20 h-20 tablet:w-24 tablet:h-24 m-3;
+}
+
+.character .skeleton.size.xl {
+    @apply w-28 h-28 tablet:w-40 tablet:h-40 m-3 tablet:m-4;
+}
+
+.character .button-height.size.default {
+    @apply -translate-y-2;
+}
+
+.character .button-height.size.xl {
+    @apply -translate-y-2 tablet:-translate-y-3;
+}
+
+.character.margin-offset.size.default {
+    @apply mt-2;
+}
+
+.character.margin-offset.size.xl {
+    @apply pt-2 tablet:pt-3;
+}
+
+.abs-center {
+    @apply absolute transform top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
