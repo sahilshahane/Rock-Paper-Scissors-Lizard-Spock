@@ -40,8 +40,8 @@ const Character = ({ src, name, isHidden, onClick, isClickable, size }: baseChar
         <div
             onMouseDown={handleClick}
             style={{ transitionDuration: `${BtnPressedDuration}ms` }}
-            className={`transition character transform-gpu ${
-                isHidden ? 'scale-0' : 'scale-100'
+            className={`transition duration-700 character transform-gpu ${
+                isHidden && 'scale-0 -rotate-180'
             } no-select inline-flex outer-shadow ${name}-gradient rounded-full cursor-pointer size margin-offset ${
                 size || 'default'
             } `}

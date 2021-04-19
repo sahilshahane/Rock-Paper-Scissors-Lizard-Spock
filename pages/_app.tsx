@@ -7,8 +7,10 @@ import HeaderCard from '../components/HeaderCard';
 import { useGameData } from '../hooks/useGameData';
 import RulesSection from '../components/RulesSection';
 
-export interface GameModes {
-    gameMode: 'easy' | 'hard' | null;
+export type GameModeTypes = 'easy' | 'hard' | null;
+
+interface GameModes {
+    gameMode: GameModeTypes;
 }
 
 export type defaultStaticProps = GameModes;

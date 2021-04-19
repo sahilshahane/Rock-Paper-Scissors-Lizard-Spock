@@ -7,7 +7,7 @@ const getScore = (gameModeScore: 'easyModeScore' | 'hardModeScore') => {
 
     if (score == null) return 0;
 
-    return parseInt(score);
+    return Number(score);
 };
 
 export const useGameData = () => {
