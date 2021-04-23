@@ -1,10 +1,8 @@
 import '../styles/globals.css';
-import { Dispatch, SetStateAction } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Footer from '../components/Footer';
 import HeaderCard from '../components/HeaderCard';
-import { useGameData } from '../hooks/useGameData';
 import RulesSection from '../components/RulesSection';
 
 export type GameModeTypes = 'easy' | 'hard' | null;
@@ -15,18 +13,7 @@ interface GameModes {
 
 export type defaultStaticProps = GameModes;
 
-export interface GameData extends GameModes {
-    easyModeScore?: number | null;
-    hardModeScore?: number | null;
-}
-
-export interface defaultProps {
-    data: GameData;
-    setData: Dispatch<SetStateAction<GameData>>;
-}
-
 function MyApp({ Component, pageProps }: AppProps) {
-    const [data, setData] = useGameData();
     // const router = useRouter()
 
     // useEffect(() => {
@@ -39,9 +26,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             </Head>
 
             <div className="relative select-none h-screen flex flex-col justify-between">
-                <HeaderCard data={data} />
+                <HeaderCard gameMode={pageProps.gameMode} />
                 <div className="relative w-full h-full">
-                    <Component {...pageProps} data={data} setData={setData} />
+                    <Component {...pageProps} />
                 </div>
 
                 <RulesSection gameMode={pageProps.gameMode} />

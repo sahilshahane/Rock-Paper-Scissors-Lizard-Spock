@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
 export type CharacterNames = 'spock' | 'scissors' | 'rock' | 'paper' | 'lizard';
@@ -36,27 +37,38 @@ const Character = ({ src, name, isHidden, onClick, isClickable, size }: baseChar
     };
 
     return (
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        <div
-            onMouseDown={handleClick}
-            style={{ transitionDuration: `${BtnPressedDuration}ms` }}
-            className={`transition duration-700 character transform-gpu ${
-                isHidden && 'scale-0 -rotate-180'
-            } no-select inline-flex outer-shadow ${name}-gradient rounded-full cursor-pointer size margin-offset ${
-                size || 'default'
-            } `}
-        >
-            <div
-                style={{ transitionDuration: `${BtnPressedDuration}ms` }}
-                className={`transition ${name}-gradient rounded-full size ${size || 'default'} transform ${
-                    isClicked ? 'translate-y-0' : 'button-height'
-                }`}
-            >
-                <div className={`rounded-full bg-white inline-flex justify-center skeleton size ${size || 'default'} `}>
-                    <img src={src} alt={name} className="self-center w-7/12 tablet:w-1/2" />
-                </div>
-            </div>
-        </div>
+        <AnimatePresence>
+            {!isHidden && (
+                <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    transition={{ delay: 0.1 }}
+                >
+                    <div
+                        onMouseDown={handleClick}
+                        className={`transition duration-700 character transform-gpu no-select inline-flex outer-shadow ${name}-gradient rounded-full cursor-pointer size margin-offset ${
+                            size || 'default'
+                        } `}
+                    >
+                        <div
+                            style={{ transitionDuration: `${BtnPressedDuration}ms` }}
+                            className={`transition ${name}-gradient rounded-full size ${size || 'default'} transform ${
+                                isClicked ? 'translate-y-0' : 'button-height'
+                            }`}
+                        >
+                            <div
+                                className={`rounded-full bg-white inline-flex justify-center skeleton size ${
+                                    size || 'default'
+                                } `}
+                            >
+                                <img src={src} alt={name} className="self-center w-7/12 tablet:w-1/2" />
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 };
 

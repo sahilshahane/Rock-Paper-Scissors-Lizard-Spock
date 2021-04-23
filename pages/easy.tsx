@@ -1,13 +1,13 @@
-import { useReducer } from 'react';
+import { Dispatch, FC, useReducer } from 'react';
 import Head from 'next/head';
+import { AnimatePresence, motion, MotionProps } from 'framer-motion';
 import { Paper, Rock, Scissors } from '../components/Characters';
-import { defaultProps, defaultStaticProps, GameModeTypes } from './_app';
-import { useGameSettings } from '../hooks/useGameSettings';
+import { defaultStaticProps, GameModeTypes } from './_app';
 import GameResultDialog from '../components/GameResult';
 
 type characterNames = 'rock' | 'paper' | 'scissors';
 
-interface easyModeInf extends defaultProps {
+interface easyModeInf {
     gameMode: GameModeTypes;
 }
 
@@ -16,9 +16,7 @@ interface selectionState {
 }
 
 type reducerInterface = (
-    // eslint-disable-next-line no-unused-vars
     state: selectionState,
-    // eslint-disable-next-line no-unused-vars
     action: {
         type: 'select' | 'reset';
         payload?: characterNames;
@@ -46,16 +44,60 @@ const CharacterNameArray: characterNames[] = ['paper', 'rock', 'scissors'];
 
 const getRandomCharacter = () => CharacterNameArray[Math.floor(Math.random() * CharacterNameArray.length)];
 
-const EasyMode = (props: easyModeInf) => {
-    const { data, setData, gameMode } = props;
-    const [state, dispatch] = useReducer(reducer, initialSelectionState);
+interface CharacterSelectionProps {
+    dispatch: Dispatch<{
+        type: 'select' | 'reset';
+        payload?: characterNames;
+    }>;
 
-    // CUSTOM HOOK BABY
-    useGameSettings(props, setData);
+    isVisible: boolean;
+}
 
+const defaultAnimationStyle: MotionProps = {
+    initial: { scale: 0, opacity: 0 },
+    animate: { scale: 1, opacity: 1 },
+    exit: { scale: 0, opacity: 0 },
+    transition: { duration: 0.2 },
+};
+
+const CharacterSelection: FC<CharacterSelectionProps> = ({ dispatch, isVisible }) => {
     const HandleClick = (name: characterNames) => {
         dispatch({ type: 'select', payload: name });
     };
+
+    return (
+        <AnimatePresence>
+            {isVisible && (
+                <motion.div {...defaultAnimationStyle}>
+                    <div className="relative mx-auto p-2 flex justify-center w-64 h-64 tablet:w-80 tablet:h-80">
+                        <div className="absolute left-0 p-8">
+                            <img src="/images/bg-triangle.svg" alt="triangular background" />
+                        </div>
+
+                        <div className="absolute left-0">
+                            <Paper onClick={HandleClick} />
+                        </div>
+                        <div className="absolute right-0">
+                            <Scissors onClick={HandleClick} />
+                        </div>
+                        <div className="absolute bottom-0">
+                            <Rock onClick={HandleClick} />
+                        </div>
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    );
+};
+
+const DivCenter: FC = ({ children }) => (
+    <div className="container-responsive transform-gpu absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        {children}
+    </div>
+);
+
+const EasyMode: FC<easyModeInf> = ({ gameMode }) => {
+    const [state, dispatch] = useReducer(reducer, initialSelectionState);
 
     const resetGame = () => dispatch({ type: 'reset' });
 
@@ -64,34 +106,18 @@ const EasyMode = (props: easyModeInf) => {
             <Head>
                 <title>Easy Mode | R.P.S</title>
             </Head>
+            <DivCenter>
+                <GameResultDialog
+                    resetGameFunc={resetGame}
+                    selectedCharacter={state.selectedCharacter}
+                    enemyCharacter={getRandomCharacter()}
+                    gameMode={gameMode}
+                />
+            </DivCenter>
 
-            <GameResultDialog
-                resetGameFunc={resetGame}
-                selectedCharacter={state.selectedCharacter}
-                enemyCharacter={getRandomCharacter()}
-                showDialog={!!state.selectedCharacter}
-                gameMode={gameMode}
-            />
-
-            <div
-                className={`absolute transform-gpu top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${
-                    state.selectedCharacter && 'scale-0 opacity-0'
-                } transition p-2 flex justify-center w-64 h-64 tablet:w-80 tablet:h-80`}
-            >
-                <div className="absolute left-0 p-8">
-                    <img src="/images/bg-triangle.svg" alt="triangular background" />
-                </div>
-
-                <div className="transition transform-gpu absolute left-0">
-                    <Paper onClick={HandleClick} />
-                </div>
-                <div className="transition transform-gpu absolute right-0">
-                    <Scissors onClick={HandleClick} />
-                </div>
-                <div className="transition transform-gpu absolute bottom-0">
-                    <Rock onClick={HandleClick} />
-                </div>
-            </div>
+            <DivCenter>
+                <CharacterSelection isVisible={!state.selectedCharacter} dispatch={dispatch} />
+            </DivCenter>
         </div>
     );
 };

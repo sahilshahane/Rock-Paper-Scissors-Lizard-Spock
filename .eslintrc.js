@@ -20,6 +20,9 @@ module.exports = {
         'react/react-in-jsx-scope': 'off',
         'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
         'react/require-default-props': 'off',
+        'react/prop-types': 'off',
+        'jsx-a11y/no-static-element-interactions': 'off',
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
     },
     settings: {
         'import/resolver': {
