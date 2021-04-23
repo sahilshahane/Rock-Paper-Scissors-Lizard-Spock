@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
 export type CharacterNames = 'spock' | 'scissors' | 'rock' | 'paper' | 'lizard';
-type onCharacterClick = (name: CharacterNames) => any;
+type onCharacterClick = (name: CharacterNames) => void;
 
 interface characterProps {
     isHidden?: boolean;

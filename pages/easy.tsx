@@ -13,6 +13,7 @@ interface easyModeInf {
 
 interface selectionState {
     selectedCharacter?: characterNames;
+    enemyCharacter?: characterNames;
 }
 
 type reducerInterface = (
@@ -23,26 +24,28 @@ type reducerInterface = (
     },
 ) => selectionState;
 
+const initialSelectionState: selectionState = {};
+
+const CharacterNameArray: characterNames[] = ['paper', 'rock', 'scissors'];
+
+const getRandomCharacter = () => CharacterNameArray[Math.floor(Math.random() * CharacterNameArray.length)];
+
 const reducer: reducerInterface = (state, action) => {
     const newState: selectionState = {};
     // eslint-disable-next-line default-case
     switch (action.type) {
         case 'select':
             newState.selectedCharacter = action.payload;
+            newState.enemyCharacter = getRandomCharacter();
             break;
         case 'reset':
             newState.selectedCharacter = undefined;
+            newState.enemyCharacter = undefined;
             break;
     }
     // console.log('You Clicked on ' + action.payload, state)
     return { ...state, ...newState };
 };
-
-const initialSelectionState: selectionState = {};
-
-const CharacterNameArray: characterNames[] = ['paper', 'rock', 'scissors'];
-
-const getRandomCharacter = () => CharacterNameArray[Math.floor(Math.random() * CharacterNameArray.length)];
 
 interface CharacterSelectionProps {
     dispatch: Dispatch<{
@@ -110,7 +113,7 @@ const EasyMode: FC<easyModeInf> = ({ gameMode }) => {
                 <GameResultDialog
                     resetGameFunc={resetGame}
                     selectedCharacter={state.selectedCharacter}
-                    enemyCharacter={getRandomCharacter()}
+                    enemyCharacter={state.enemyCharacter}
                     gameMode={gameMode}
                 />
             </DivCenter>

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { GameModeTypes } from '../pages/_app';
 
-const getScore = (gameMode: GameModeTypes) => {
+export const getScore = (gameMode: GameModeTypes) => {
     const score = localStorage.getItem(gameMode);
 
     if (score == null) return 0;
@@ -10,7 +10,7 @@ const getScore = (gameMode: GameModeTypes) => {
     return Number(score);
 };
 
-const setScore = (gameMode: GameModeTypes, score: number | null) => {
+export const setScore = (gameMode: GameModeTypes, score: number | null) => {
     console.log(`Saving Score of Game Mode ${gameMode} = ${score}`);
     localStorage.setItem(gameMode, String(score));
 };
@@ -20,23 +20,23 @@ export interface gameDataType {
 }
 
 export const useGameData = (gameMode: GameModeTypes) => {
-    const [data, setData] = useState<gameDataType>({
+    const [gameData, setGameData] = useState<gameDataType>({
         score: null,
     });
 
     useEffect(() => {
-        setData({ ...data, score: getScore(gameMode) });
+        setGameData({ ...gameData, score: getScore(gameMode) });
     }, []);
 
     const incrementScore = (points: number) => {
-        if (data.score == null) {
+        if (gameData.score == null) {
             setTimeout(() => incrementScore(points), 10);
-            // console.log('Scores are being fetched from localStorage, Waiting');
+            console.warn('Scores are being fetched from localStorage, Please Wait and btw your browser is slow!');
         } else {
-            setData((prev) => ({ ...prev, score: prev.score + points }));
-            setScore(gameMode, data.score + points);
+            setGameData((prev) => ({ ...prev, score: prev.score + points }));
+            setScore(gameMode, gameData.score + points);
         }
     };
 
-    return [data, incrementScore] as const;
+    return [gameData, incrementScore] as const;
 };

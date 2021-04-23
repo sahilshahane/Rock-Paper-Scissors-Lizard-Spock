@@ -1,7 +1,6 @@
-import { FC, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { AnimatePresence, motion, MotionProps } from 'framer-motion';
-import { useGameData } from 'hooks/useGameData';
-import { GameModeTypes } from 'pages/_app';
+import { GameDataContext, GameModeTypes } from 'pages/_app';
 import { CharacterNames, Paper, Rock, Lizard, Scissors, Spock } from './Characters';
 
 const defaultAnimationStyle: MotionProps = {
@@ -56,7 +55,7 @@ interface gameResultProps {
 }
 
 const GameResultDialog: FC<gameResultProps> = ({ selectedCharacter, resetGameFunc, enemyCharacter, gameMode }) => {
-    const [gameData, increamentScore] = useGameData(gameMode);
+    const { incrementScore } = useContext(GameDataContext);
 
     const handlePlayAgain = () => {
         resetGameFunc();
@@ -65,14 +64,15 @@ const GameResultDialog: FC<gameResultProps> = ({ selectedCharacter, resetGameFun
     useEffect(() => {
         if (selectedCharacter) {
             const result = getResultStatus(selectedCharacter, enemyCharacter);
+
             // eslint-disable-next-line default-case
             switch (result) {
                 case 'YOU WON':
-                    increamentScore(1);
+                    incrementScore(1);
                     break;
 
                 case 'YOU LOST':
-                    increamentScore(-1);
+                    incrementScore(-1);
                     break;
             }
         }
