@@ -1,7 +1,7 @@
-import { Lizard, Paper, Rock, Scissors, Spock } from '../components/Characters';
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { defaultStaticProps } from './_app';
+import { defaultStaticProps } from 'pages/_app';
+import { Lizard, Paper, Rock, Scissors, Spock } from '../components/Characters';
 
 const HardMode = ({ data, setData }: any) => {
     useEffect(() => setData({ ...data, gameMode: 'hard' }), []);

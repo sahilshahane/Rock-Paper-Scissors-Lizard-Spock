@@ -4,6 +4,8 @@ import { AnimatePresence, motion, MotionProps } from 'framer-motion';
 import { Paper, Rock, Scissors } from '../components/Characters';
 import { defaultStaticProps, GameModeTypes } from './_app';
 import GameResultDialog from '../components/GameResult';
+import HeaderCard from '../components/HeaderCard';
+import RulesSection from '../components/RulesSection';
 
 type characterNames = 'rock' | 'paper' | 'scissors';
 
@@ -109,18 +111,25 @@ const EasyMode: FC<easyModeInf> = ({ gameMode }) => {
             <Head>
                 <title>Easy Mode | R.P.S</title>
             </Head>
-            <DivCenter>
-                <GameResultDialog
-                    resetGameFunc={resetGame}
-                    selectedCharacter={state.selectedCharacter}
-                    enemyCharacter={state.enemyCharacter}
-                    gameMode={gameMode}
-                />
-            </DivCenter>
 
-            <DivCenter>
-                <CharacterSelection isVisible={!state.selectedCharacter} dispatch={dispatch} />
-            </DivCenter>
+            <div className="relative select-none h-screen flex flex-col justify-between">
+                <HeaderCard gameMode={gameMode} />
+                <div className="relative w-full h-full">
+                    <DivCenter>
+                        <GameResultDialog
+                            resetGameFunc={resetGame}
+                            selectedCharacter={state.selectedCharacter}
+                            enemyCharacter={state.enemyCharacter}
+                            gameMode={gameMode}
+                        />
+                    </DivCenter>
+
+                    <DivCenter>
+                        <CharacterSelection isVisible={!state.selectedCharacter} dispatch={dispatch} />
+                    </DivCenter>
+                </div>
+                <RulesSection gameMode={gameMode} />
+            </div>
         </div>
     );
 };

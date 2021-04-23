@@ -4,8 +4,6 @@ import Head from 'next/head';
 import { createContext } from 'react';
 import { useGameData } from 'hooks/useGameData';
 import Footer from '../components/Footer';
-import HeaderCard from '../components/HeaderCard';
-import RulesSection from '../components/RulesSection';
 
 export type GameModeTypes = 'easy' | 'hard' | null;
 
@@ -17,7 +15,7 @@ export type defaultStaticProps = GameModes;
 
 export const GameDataContext = createContext({
     score: null,
-    incrementScore: (arg) => {},
+    incrementScore: null,
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -31,14 +29,8 @@ function MyApp({ Component, pageProps }: AppProps) {
                     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
                 </Head>
 
-                <div className="relative select-none h-screen flex flex-col justify-between">
-                    <HeaderCard gameMode={pageProps.gameMode} />
-                    <div className="relative w-full h-full">
-                        <Component {...pageProps} />
-                    </div>
+                <Component {...pageProps} />
 
-                    <RulesSection gameMode={pageProps.gameMode} />
-                </div>
                 <Footer />
             </div>
         </GameDataContext.Provider>
