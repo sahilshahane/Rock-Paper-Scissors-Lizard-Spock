@@ -1,10 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { GameDataContext } from 'pages/_app';
+import { useContext, useState } from 'react';
 
 export type CharacterNames = 'spock' | 'scissors' | 'rock' | 'paper' | 'lizard';
 type onCharacterClick = (name: CharacterNames) => void;
 
-interface characterProps {
+export interface characterProps {
     isHidden?: boolean;
     onClick?: onCharacterClick;
     isClickable?: boolean;
@@ -36,6 +37,8 @@ const Character = ({ src, name, isHidden, onClick, isClickable, size }: baseChar
         }
     };
 
+    const { gameMode } = useContext(GameDataContext);
+
     return (
         <AnimatePresence>
             {!isHidden && (
@@ -44,16 +47,17 @@ const Character = ({ src, name, isHidden, onClick, isClickable, size }: baseChar
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
                     transition={{ delay: 0.1 }}
+                    className={`character ${gameMode}-mode ${name}`}
                 >
                     <div
                         onMouseDown={handleClick}
-                        className={`transition duration-700 character transform-gpu no-select inline-flex outer-shadow ${name}-gradient rounded-full cursor-pointer size margin-offset ${
+                        className={`transition duration-700 transform-gpu no-select inline-flex outer-border rounded-full cursor-pointer size ${
                             size || 'default'
                         } `}
                     >
                         <div
                             style={{ transitionDuration: `${BtnPressedDuration}ms` }}
-                            className={`transition ${name}-gradient rounded-full size ${size || 'default'} transform ${
+                            className={`transition inner-border rounded-full size ${size || 'default'} transform ${
                                 isClicked ? 'translate-y-0' : 'button-height'
                             }`}
                         >

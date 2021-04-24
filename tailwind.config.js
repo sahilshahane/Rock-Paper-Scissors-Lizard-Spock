@@ -37,6 +37,8 @@ module.exports = {
         colors: {
             ...colors,
             'neutral-dark': '#3B4363',
+            'neutral-score': '#2A46C0',
+            'neutral-header': '#606E85',
         },
         letterSpacing: {
             ...defaultTheme.letterSpacing,

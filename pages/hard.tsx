@@ -1,15 +1,16 @@
 import { Dispatch, FC, useReducer } from 'react';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { AnimatePresence, motion, MotionProps } from 'framer-motion';
-import { Paper, Rock, Scissors } from '../components/Characters';
+import { Paper, Rock, Scissors, Lizard, Spock } from '../components/Characters';
 import { defaultStaticProps, GameModeTypes } from './_app';
 import GameResultDialog from '../components/GameResult';
 import HeaderCard from '../components/HeaderCard';
 import RulesSection from '../components/RulesSection';
 
-type characterNames = 'rock' | 'paper' | 'scissors';
+type characterNames = 'rock' | 'paper' | 'scissors' | 'spock' | 'lizard';
 
-interface easyModeInf {
+interface HardModeProps {
     gameMode: GameModeTypes;
 }
 
@@ -74,19 +75,31 @@ const CharacterSelection: FC<CharacterSelectionProps> = ({ dispatch, isVisible }
         <AnimatePresence>
             {isVisible && (
                 <motion.div {...defaultAnimationStyle}>
-                    <div className="relative mx-auto p-2 flex justify-center w-72 h-72 tablet:w-80 tablet:h-80">
+                    <div className="relative mx-auto flex justify-center w-80 h-80 tablet:w-96 tablet:h-96 ">
                         <div className="absolute left-0 p-8">
-                            <img src="/images/bg-triangle.svg" alt="triangular background" />
+                            <img src="/images/bg-pentagon.svg" alt="pentagon shape background" />
                         </div>
 
-                        <div className="absolute left-0">
-                            <Paper onClick={HandleClick} />
-                        </div>
-                        <div className="absolute right-0">
+                        <div className="absolute top-0 mx-auto">
                             <Scissors onClick={HandleClick} />
                         </div>
-                        <div className="absolute bottom-0">
-                            <Rock onClick={HandleClick} />
+
+                        <div className="absolute transform top-1/2 -translate-y-1/2 w-full flex justify-between">
+                            <div className="transform -translate-y-1/4">
+                                <Spock onClick={HandleClick} />
+                            </div>
+                            <div className="transform -translate-y-1/4">
+                                <Paper onClick={HandleClick} />
+                            </div>
+                        </div>
+
+                        <div className="absolute bottom-0 w-full flex justify-evenly">
+                            <div>
+                                <Lizard onClick={HandleClick} />
+                            </div>
+                            <div>
+                                <Rock onClick={HandleClick} />
+                            </div>
                         </div>
                     </div>
                 </motion.div>
@@ -101,7 +114,7 @@ const DivCenter: FC = ({ children }) => (
     </div>
 );
 
-const EasyMode: FC<easyModeInf> = ({ gameMode }) => {
+const HardMode: FC<HardModeProps> = ({ gameMode }) => {
     const [state, dispatch] = useReducer(reducer, initialSelectionState);
 
     const resetGame = () => dispatch({ type: 'reset' });
@@ -127,15 +140,15 @@ const EasyMode: FC<easyModeInf> = ({ gameMode }) => {
     );
 };
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
     const props: defaultStaticProps = {
-        gameMode: 'easy',
-        title: 'Easy Mode | R.P.S',
+        gameMode: 'hard',
+        title: 'Hard Mode | R.P.S.S.L',
     };
 
     return {
         props,
     };
-}
+};
 
-export default EasyMode;
+export default HardMode;

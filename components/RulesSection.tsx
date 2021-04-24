@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useState } from 'react';
-import { defaultStaticProps } from '../pages/_app';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { GameDataContext } from '../pages/_app';
 
 interface rulesModalInterface {
     showModal: boolean;
@@ -43,12 +43,14 @@ const getRulesImgURL = (gameMode) => {
     }
 };
 
-const Rules = ({ gameMode }: defaultStaticProps) => {
+const Rules = () => {
     const [showModal, setShowModal] = useState(false);
 
     const handleChange = () => {
         setShowModal(true);
     };
+
+    const { gameMode } = useContext(GameDataContext);
 
     return (
         <div className={`transition ${gameMode ? 'opacity-100' : 'opacity-0'}`}>

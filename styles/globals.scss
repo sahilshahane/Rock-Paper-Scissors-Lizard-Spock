@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&display=swap');
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Barlow Semi Condensed', sans-serif, Helvetica, Arial;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button:focus {
+    outline: none;
+}
+
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+:root {
+    --text-neutral-dark: hsl(229, 25%, 31%);
+    --text-neutral-score: hsl(229, 64%, 46%);
+    --outline-neutral-header: hsl(217, 16%, 45%);
+}
+
+.fixed-background {
+    overflow: hidden;
+    position: relative;
+
+    &::before {
+        content: ' ';
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-image: radial-gradient(hsl(214, 47%, 23%), hsl(237, 49%, 15%));
+        will-change: transform;
+        z-index: -1;
+    }
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.border-color-default {
+    border-color: hsl(217, 16%, 55%);
+}
+
+.container-responsive {
+    @apply container;
+}
+
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.character {
+    &.scissors {
+        .inner-border {
+            background-image: linear-gradient(hsl(39, 89%, 49%), hsl(40, 84%, 53%));
+        }
+        .outer-border {
+            background-image: linear-gradient(hsl(39, 89%, 29%), hsl(40, 84%, 33%));
+        }
+    }
+
+    &.paper {
+        .inner-border {
+            background-image: linear-gradient(hsl(230, 89%, 62%), hsl(230, 89%, 65%));
+        }
+        .outer-border {
+            background-image: linear-gradient(hsl(230, 89%, 42%), hsl(230, 89%, 45%));
+        }
+    }
+    &.rock {
+        .inner-border {
+            background-image: linear-gradient(hsl(349, 71%, 52%), hsl(349, 70%, 56%));
+        }
+        .outer-border {
+            background-image: linear-gradient(hsl(349, 71%, 32%), hsl(349, 70%, 36%));
+        }
+    }
+    &.lizard {
+        .inner-border {
+            background-image: linear-gradient(hsl(261, 73%, 60%), hsl(261, 72%, 63%));
+        }
+        .outer-border {
+            background-image: linear-gradient(hsl(261, 73%, 40%), hsl(261, 72%, 43%));
+        }
+    }
+    &.spock {
+        .inner-border {
+            background-image: linear-gradient(hsl(189, 59%, 53%), hsl(189, 58%, 57%));
+        }
+        .outer-border {
+            background-image: linear-gradient(hsl(189, 59%, 33%), hsl(189, 58%, 37%));
+        }
+    }
+
+    &.easy-mode {
+        .size {
+            &.skeleton {
+                &.default {
+                    @apply w-20 h-20 tablet:w-24 tablet:h-24 m-3;
+                }
+                &.xl {
+                    @apply w-28 h-28 tablet:w-40 tablet:h-40 m-3 tablet:m-4;
+                }
+            }
+
+            &.button-height {
+                &.default {
+                    @apply -translate-y-2;
+                }
+                &.xl {
+                    @apply -translate-y-2 tablet:-translate-y-3;
+                }
+            }
+
+            &.outer-border {
+                &.default {
+                    @apply mt-2;
+                }
+                &.xl {
+                    @apply pt-2 tablet:pt-3;
+                }
+            }
+        }
+    }
+
+    &.hard-mode {
+        .size {
+            &.skeleton {
+                &.default {
+                    @apply w-20 h-20 tablet:w-20 tablet:h-20 m-3;
+                }
+                &.xl {
+                    @apply w-28 h-28 tablet:w-40 tablet:h-40 m-3 tablet:m-4;
+                }
+            }
+
+            &.button-height {
+                &.default {
+                    @apply -translate-y-2;
+                }
+                &.xl {
+                    @apply -translate-y-2 tablet:-translate-y-3;
+                }
+            }
+
+            &.outer-border {
+                &.default {
+                    @apply mt-2;
+                }
+                &.xl {
+                    @apply pt-2 tablet:pt-3;
+                }
+            }
+        }
+    }
+}
+
+.abs-center {
+    @apply absolute transform top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
