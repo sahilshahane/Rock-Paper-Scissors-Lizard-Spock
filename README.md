@@ -1,12 +1,12 @@
 # Rock Paper Scissors Lizard Spock
 Libraries Used -
-- ReactJS
-- NextJS
-- TailwindCSS
-- Framer Motion
+- [ReactJS](https://reactjs.org/)
+- [NextJS](https://nextjs.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Framer Motion](https://www.framer.com/motion/)
 
 For Hosting / Deployment - 
-- Vercel
+- [Vercel](https://vercel.com/)
 
 
 This Game features two modes: Easy Mode and Hard Mode
