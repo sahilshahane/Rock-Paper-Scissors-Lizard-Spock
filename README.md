@@ -1,4 +1,5 @@
 # Rock Paper Scissors Lizard Spock
+# [Click me to visit the site!](https://rock-paper-scissors-sahilbest999.vercel.app)
 Libraries Used -
 - [ReactJS](https://reactjs.org/)
 - [NextJS](https://nextjs.org/)
